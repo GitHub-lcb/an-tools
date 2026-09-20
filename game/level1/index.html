@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>幽灵订单 · LEVEL 1 ｜ 代码视界</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app" class="hidden">
+
+  <!-- ── 顶栏 ─────────────────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="brand">
+      <h1>幽灵订单</h1>
+      <span class="sub">LEVEL 1 · 星河科技 履约中台组</span>
+    </div>
+    <div class="spacer"></div>
+    <span class="pill" id="pill-phase">阶段 · —</span>
+    <span class="pill" id="pill-clock">09:07</span>
+    <button class="ghost-btn" id="btn-theme" title="切换明暗">明/暗</button>
+    <button class="ghost-btn" id="btn-restart">重开</button>
+  </header>
+
+  <!-- ── 状态标记 ─────────────────────────────────────────────────────── -->
+  <div class="statusbar" id="statusbar"></div>
+
+  <!-- ── 主区 ─────────────────────────────────────────────────────────── -->
+  <main class="wrap">
+
+    <!-- 左栏：计数器 -->
+    <section class="panel">
+      <h2>事故状态 <span class="hint" id="turn-hint">第 1 回合</span></h2>
+
+      <div class="meter">
+        <div class="label"><span>影响值 IMPACT</span>
+          <span class="val"><span id="v-impact">0</span><small> / 100</small></span></div>
+        <div class="bar warnline"><i id="bar-impact"></i></div>
+      </div>
+
+      <div class="meter">
+        <div class="label"><span>事故时间</span>
+          <span class="val"><span id="v-time">0</span><small> / <span id="v-limit">15</span> 分钟</small></span></div>
+        <div class="bar thin"><i id="bar-time"></i></div>
+      </div>
+
+      <div class="meter">
+        <div class="label"><span>团队精力</span>
+          <span class="val" id="v-stamina">8 / 8</span></div>
+        <div class="bar thin"><i id="bar-stamina" style="background:var(--green)"></i></div>
+      </div>
+
+      <div class="meter">
+        <div class="label"><span>视界带宽</span>
+          <span class="val" id="v-vision">3</span></div>
+        <div class="pips" id="pips-vision"></div>
+      </div>
+
+      <div class="meter">
+        <div class="label"><span>已掌握线索</span>
+          <span class="val" id="v-evcount">0</span></div>
+      </div>
+      <div class="evidence" id="evidence"></div>
+    </section>
+
+    <!-- 中栏：处置记录 -->
+    <section class="panel">
+      <h2>处置记录 <span class="hint" id="log-hint">只读权限</span></h2>
+      <div class="log" id="log"></div>
+    </section>
+
+    <!-- 右栏：卡池 -->
+    <section class="panel">
+      <h2>可执行操作</h2>
+      <div class="cards" id="cards"></div>
+    </section>
+
+  </main>
+</div>
+
+<div id="zhao-host"></div>
+<div id="overlay-host"></div>
+
+<script src="js/data.js"></script>
+<script src="js/texts.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>

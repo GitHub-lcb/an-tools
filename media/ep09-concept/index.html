@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EP09 概念片 · 视觉探针看板 ｜ 代码视界</title>
+<style>
+  :root{
+    --bg:#080b10; --panel:#0e151d; --panel2:#0a1017; --line:#1c2836;
+    --text:#c3d2e0; --hi:#e9f3fb; --dim:#67798b; --dim2:#435565;
+    --cyan:#35c7d4; --amber:#e8a33d; --red:#ff5545;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:
+      radial-gradient(1100px 560px at 15% -8%, rgba(53,199,212,.07), transparent 62%),
+      radial-gradient(900px 520px at 108% 108%, rgba(255,85,69,.05), transparent 62%),
+      var(--bg);
+    color:var(--text);font:14px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  header{padding:26px 30px 18px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,var(--panel),var(--panel2))}
+  h1{margin:0;font-size:20px;letter-spacing:.06em;color:var(--hi);font-weight:600}
+  .sub{margin-top:6px;font:12px/1.7 ui-monospace,Consolas,monospace;color:var(--dim)}
+  .sub b{color:var(--cyan);font-weight:600}
+  main{padding:22px 30px 60px;max-width:1500px;margin:0 auto}
+
+  .note{border:1px solid var(--amber);background:rgba(232,163,61,.06);border-radius:5px;
+    padding:12px 15px;margin-bottom:22px;font:12.5px/1.8 ui-monospace,Consolas,monospace;color:var(--amber)}
+  .note b{color:var(--hi)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:7px;overflow:hidden;
+    display:flex;flex-direction:column}
+  .card .top{padding:11px 14px;border-bottom:1px solid var(--line);background:var(--panel2);
+    display:flex;align-items:baseline;gap:10px}
+  .card .top .shot{font:600 12px ui-monospace,Consolas,monospace;color:var(--cyan);letter-spacing:.08em}
+  .card .top .tc{margin-left:auto;font:11px ui-monospace,Consolas,monospace;color:var(--dim)}
+  .card .top .step{font:10px ui-monospace,Consolas,monospace;color:var(--amber);
+    border:1px solid rgba(232,163,61,.4);border-radius:3px;padding:1px 5px}
+
+  .media{background:#05080c;display:flex;justify-content:center;align-items:center}
+  .media video,.media img{display:block;width:100%;max-height:520px;object-fit:contain}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+  .pair > div{background:#05080c;display:flex;flex-direction:column}
+  .pair .lbl{font:10px ui-monospace,Consolas,monospace;color:var(--dim2);padding:5px 8px;
+    background:var(--panel2);border-bottom:1px solid var(--line)}
+  .pair video,.pair img{width:100%;object-fit:contain;flex:1}
+
+  .body{padding:13px 15px 15px}
+  .kv{display:grid;grid-template-columns:74px 1fr;gap:3px 10px;font-size:12.5px}
+  .kv .k{font:11px ui-monospace,Consolas,monospace;color:var(--dim);padding-top:1px}
+  .kv .v{color:var(--text)}
+  .kv .v.mono{font:12px ui-monospace,Consolas,monospace;color:var(--hi)}
+  .sound{margin-top:11px;padding-top:10px;border-top:1px dashed var(--line);
+    font-size:12.5px;color:var(--dim)}
+  .sound b{color:var(--amber);font-weight:600}
+
+  .spec{border:1px solid var(--line);border-radius:7px;margin-top:24px;overflow:hidden}
+  .spec h2{margin:0;padding:11px 15px;background:var(--panel2);border-bottom:1px solid var(--line);
+    font:600 11.5px ui-monospace,Consolas,monospace;letter-spacing:.14em;color:var(--dim);
+    text-transform:uppercase}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{padding:8px 14px;text-align:left;border-bottom:1px solid var(--line)}
+  th{font:11px ui-monospace,Consolas,monospace;color:var(--dim);letter-spacing:.08em;font-weight:600}
+  td.mono{font-family:ui-monospace,Consolas,monospace}
+  td.warn{color:var(--amber)}
+  tr:last-child td{border-bottom:0}
+  code{font:12px ui-monospace,Consolas,monospace;background:var(--panel2);
+    border:1px solid var(--line);border-radius:3px;padding:1px 5px;color:var(--cyan)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>EP09 概念片 · 视觉探针看板</h1>
+  <div class="sub">
+    素材来源 <b>docs/novel/24</b> EP09 ／ 分镜依据 <b>docs/novel/32</b> ·
+    用途：<b>31 §9.1</b> 商业路径第 2 步 —— 投产前验证视觉标准
+  </div>
+</header>
+
+<main>
+
+  <div class="note">
+    <b>先读这一条：本批是「视觉方向探针」，不是成片。</b><br>
+    <b>32</b> 号分镜要求的是 30 秒 / 15 镜的完整概念片。这里交付的是其中三个最贵的镜头各 5 秒，<br>
+    目的是拿到「星河的视觉语言长什么样」的实物，供制作方估价用。<br>
+    每段都是 <b>单镜不切</b>，符合 32 §三「即使是短版也不许有剪辑点」的硬要求。
+  </div>
+
+  <div class="grid">
+
+    <!-- 01 -->
+    <div class="card">
+      <div class="top">
+        <span class="shot">SHOT 01</span>
+        <span class="step">① ② ③ ④</span>
+        <span class="tc">对应分镜 4–8 ／ 0:07–0:13</span>
+      </div>
+      <div class="pair">
+        <div>
+          <div class="lbl">静帧 · 仪式起点</div>
+          <img src="frames/01_vision-wireframe-hands_1024x1536.png" alt="视界开启：看不见身体，只有两只泛青光的双手">
+        </div>
+        <div>
+          <div class="lbl">动镜 · 5.04s</div>
+          <video src="clips/01_vision-wireframe-hands_5s.mp4" controls loop muted playsinline preload="metadata"></video>
+        </div>
+      </div>
+      <div class="body">
+        <div class="kv">
+          <span class="k">画面</span><span class="v">办公室还在，身后的世界已卸载成灰白线框；<b>看不见身体，只有两只泛着青色微光的双手</b></span>
+          <span class="k">为什么关键</span><span class="v">这是三条铁律里「<b>视界只给眼睛，不给手</b>」的唯一画面化——身体消失，手留下</span>
+          <span class="k">实拍规格</span><span class="v mono">1176 × 1764 · 24fps · 121 帧 · 5.042s</span>
+        </div>
+        <div class="sound"><b>声音</b>：环境音被抽干，60Hz 次声波嗡鸣起；本镜是纯静默与低频，无配乐</div>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="card">
+      <div class="top">
+        <span class="shot">SHOT 02</span>
+        <span class="step">⑤ 城市升起</span>
+        <span class="tc">对应分镜 9 ／ 0:13–0:24</span>
+      </div>
+      <div class="pair">
+        <div>
+          <div class="lbl">静帧 · 封面帧（32 §六 指定）</div>
+          <img src="frames/02_city-rising_1024x1536.png" alt="星河城升起：第一栋建筑正在长出来">
+        </div>
+        <div>
+          <div class="lbl">动镜 · 5.04s</div>
+          <video src="clips/02_city-rising_5s.mp4" controls loop muted playsinline preload="metadata"></video>
+        </div>
+      </div>
+      <div class="body">
+        <div class="kv">
+          <span class="k">画面</span><span class="v">虚空从中心裂开，光丝涌出、交织、先在脚下铺成一条路，路的尽头<b>第一栋建筑从地面里长出来</b></span>
+          <span class="k">为什么关键</span><span class="v">32 开篇第一问：这看起来是「<b>生长</b>」还是「特效堆砌」？——这 5 秒就是答案</span>
+          <span class="k">实拍规格</span><span class="v mono">1176 × 1764 · 24fps · 121 帧 · 5.042s</span>
+          <span class="k">抽帧核验</span><span class="v">5% 处塔仍在建（未封顶）→ 90% 处已落成点亮，<b>生长过程真实发生</b></span>
+        </div>
+        <div class="sound"><b>声音</b>：白噪音从杂乱「调音」成和谐和弦，到顶后<b>骤停</b>（32 §四.2）</div>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="card">
+      <div class="top">
+        <span class="shot">SHOT 03</span>
+        <span class="step">⑤ 尾 ／ ⑥ 前</span>
+        <span class="tc">对应分镜 14 ／ 0:27–0:28.5</span>
+      </div>
+      <div class="pair">
+        <div>
+          <div class="lbl">静帧 · 全景</div>
+          <img src="frames/03_city-panorama_1024x1536.png" alt="星河城全景：光带在建筑之间流动">
+        </div>
+        <div>
+          <div class="lbl">动镜 · 5.04s</div>
+          <video src="clips/03_city-panorama-pushin_5s.mp4" controls loop muted playsinline preload="metadata"></video>
+        </div>
+      </div>
+      <div class="body">
+        <div class="kv">
+          <span class="k">画面</span><span class="v">光带在建筑之间持续流动，整座城市在呼吸；他站在正中央的街道上，很小</span>
+          <span class="k">为什么关键</span><span class="v">「光带流动」是 32 §五 技术难点清单第 2 项，也是整季<b>复用资产</b>的主体</span>
+          <span class="k">实拍规格</span><span class="v mono">1176 × 1764 · 24fps · 121 帧 · 5.042s</span>
+        </div>
+        <div class="sound"><b>声音</b>：音乐推到顶点后骤停，为 15 镜的两行字留白（32 §四.2）</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 规格核验 -->
+  <div class="spec">
+    <h2>产物规格核验（读容器得到的事实，非提示词复述）</h2>
+    <table>
+      <thead><tr><th>项</th><th>分镜要求（32 号）</th><th>实际产物</th><th>判定</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>时长</td><td class="mono">整片 30s（本批为单镜探针）</td>
+          <td class="mono">5.042s × 3</td><td class="warn">符合「单镜不切」，非成片</td>
+        </tr>
+        <tr>
+          <td>画幅</td><td class="mono">竖屏 9:16 = 0.5625</td>
+          <td class="mono">1176 × 1764 = 0.6667（2:3）</td>
+          <td class="warn">偏差 +18.5%（偏宽），见下</td>
+        </tr>
+        <tr>
+          <td>帧率 / 帧数</td><td class="mono">—</td><td class="mono">24fps / 121 帧</td><td>正常</td>
+        </tr>
+        <tr>
+          <td>音轨</td><td class="mono">需有（静默段落是本片卖点）</td>
+          <td class="mono">2 轨（视频 + 音频）</td><td>已含</td>
+        </tr>
+        <tr>
+          <td>静帧</td><td class="mono">竖屏</td>
+          <td class="mono">1024 × 1536（2:3）</td><td class="warn">同上</td>
+        </tr>
+        <tr>
+          <td>9:16 可行性</td><td class="mono">竖屏 9:16</td>
+          <td class="mono">实测输出 1072 × 1920 = 0.5583</td><td>与 9:16 仅差 0.7%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note" style="margin-top:22px">
+    <b>关于画幅（必须处理的一件事）</b><br>
+    本批 6 件资产实际是 <b>2:3</b>（0.6667），比 <b>32</b> 号要求的竖屏 <b>9:16</b>（0.5625）<b>宽 18.5%</b>。<br>
+    原因是静帧生成时按 1024×1536 出图，视频沿用底图比例。<br>
+    已实测：把尺寸写成 <code>1080x1920</code> 时工具能出 <code>1072x1920</code>（差 0.7%，可接受）——<br>
+    <b>所以这是可修的，不是做不到。</b>重跑 3 静帧 + 3 视频即可统一到 9:16。<br>
+    现留一张 9:16 版本作样张：<code>frames/02_city-rising_1072x1920_9x16-test.png</code>
+  </div>
+
+  <div class="spec">
+    <h2>本批未覆盖的分镜（留给后续）</h2>
+    <table>
+      <thead><tr><th>分镜</th><th>内容</th><th>为什么这轮没做</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">1–3, 6</td><td>黑屏键盘声 / 水泼向键盘 / 三下敲击</td><td>前两镜是实拍质感镜头，第三镜靠音效而非画面</td></tr>
+        <tr><td class="mono">7</td><td>瞳孔特写：青色数据流炸开</td><td>需要真人物面部，静帧生成的角色一致性还不稳</td></tr>
+        <tr><td class="mono">10–12</td><td>快闪 · 二十人 / 五十扇门 / 放行</td><td>0.8 秒快闪，单段 5 秒生成器做不出这种节奏，属于剪辑工作</td></tr>
+        <tr><td class="mono">13</td><td>快闪 · <b>收尸人</b>（第三卷核心形象）</td><td>值得单独做，且涉及角色设计，建议下一批专做</td></tr>
+        <tr><td class="mono">15</td><td>城门浮出 <code>SYSTEM ONLINE</code></td><td>是字幕工序，不是生成工序；按 32 §六 要求「不能给特写」</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+</body>
+</html>
