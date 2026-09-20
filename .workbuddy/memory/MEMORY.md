@@ -36,6 +36,14 @@
 
 **改数值必跑两个测试**——这是「改数值必须重跑校验」这条惯例在游戏线上的对应物。
 
+### 仓库约定（2026-09-20 定）
+
+- **媒体产物一律入库**：53 MB 概念片视频也直接 `git add`，不为体积做例外（主人明确选定；备选是 gitignore 只留本地）。
+  → 以后新增视频/图片不用再问，直接提交。
+- `.gitignore` 只挡草稿 / 系统 / 编辑器（`.tmp_*`、`*.tmp`、`tmp/`、`*.log`、`Thumbs.db`、`.idea/`），**不挡媒体与产物**。
+- `.workbuddy/memory` 纳入版本管理（它是项目备忘，不是会话缓存）。
+- **提交自己来，推送要问**：`git push` 属对外动作。截至 `880f9ad`，`origin/main` 落后 4 个提交，未推。
+
 ## 校验工具（改数值或加内容后必须重跑）
 
 - `docs/novel/tools/verify-balance.ps1`（L1）、`verify-balance-l2.ps1`（L2）、`verify-balance-l3.ps1`（L3）
